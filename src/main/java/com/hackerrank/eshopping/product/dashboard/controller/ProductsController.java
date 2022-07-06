@@ -2,29 +2,29 @@ package com.hackerrank.eshopping.product.dashboard.controller;
 
 import com.hackerrank.eshopping.product.dashboard.model.Product;
 import com.hackerrank.eshopping.product.dashboard.service.ProductService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
-@RequestMapping(value = "/products")
+@RequestMapping("/products")
 public class ProductsController {
     private static void p(Object line) { System.out.println(line); }
 
     private final ProductService productService;
+    ProductsController(ProductService productService){
+        this.productService = productService;
+    }
 
     /* add products -- if the product exists return 400, 201 otherwise */
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<?> addProduct(@RequestBody Product product) {
         p("Add product has been hit!");
-
-        return new ResponseEntity<>(new Product(), HttpStatus.CREATED);
+        p(product);
+        return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
     }
+
+    @GetMapping public String hello() { return "hellow"; }
 
     // YOU MAY OR MAY NOT RECEIVE THE ENTIRE DTO
     /* update a product by id - @/{id} -

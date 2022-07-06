@@ -1,6 +1,6 @@
 package com.hackerrank.eshopping.product.dashboard.exception;
 
-public class ProductAlreadyExistsException extends Exception {
+public class ProductAlreadyExistsException extends RuntimeException {
     private final String product;
     private ProductAlreadyExistsException(String thatProduct) {
         this.product = thatProduct;
