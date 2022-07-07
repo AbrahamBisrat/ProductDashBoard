@@ -10,8 +10,9 @@ import java.util.List;
 @Service
 public interface ProductService {
     Product addProduct(Product product) throws ProductAlreadyExistsException;
-    void updateProductById(ProductDto productDto);
+    void updateProductById(Long id, ProductDto productDto);
     List<Product> getProductsByCategory(String category);
     List<Product> getProductsByCategoryAndAvailability(String category, int availability);
     List<Product> getAllProducts();
+    Product getProductById(Long id);
 }

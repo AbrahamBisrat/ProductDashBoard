@@ -1,30 +1,26 @@
 package com.hackerrank.eshopping.product.dashboard.controller;
 
 import com.hackerrank.eshopping.product.dashboard.model.Product;
+import com.hackerrank.eshopping.product.dashboard.model.dto.ProductDto;
 import com.hackerrank.eshopping.product.dashboard.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/products")
 public class ProductsController {
     private static void p(Object line) { System.out.println(line); }
 
     private final ProductService productService;
-    ProductsController(ProductService productService){
-        this.productService = productService;
-    }
 
     /* add products -- if the product exists return 400, 201 otherwise */
     @PostMapping
     public ResponseEntity<?> addProduct(@RequestBody Product product) {
-        p("Add product has been hit!");
-        p(product);
         return new ResponseEntity<>(productService.addProduct(product), HttpStatus.CREATED);
     }
-
-    @GetMapping public String hello() { return "hellow"; }
 
     // YOU MAY OR MAY NOT RECEIVE THE ENTIRE DTO
     /* update a product by id - @/{id} -
@@ -33,8 +29,18 @@ public class ProductsController {
     *
     * If the product with the requested id does not exist then return 400, 200 otherwise */
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
+        productService.updateProductById(id, productDto);
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
     /* return the product by id @/{id}
     * if product doesn't exist return 404, 200 otherwise */
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductByProductId(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
+    }
 
     /* return products by category, array of all the products by the given category
      * /products/?category={category}

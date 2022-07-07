@@ -1,6 +1,7 @@
 package com.hackerrank.eshopping.product.dashboard.service.Impl;
 
 import com.hackerrank.eshopping.product.dashboard.exception.ProductAlreadyExistsException;
+import com.hackerrank.eshopping.product.dashboard.exception.ProductNotFound;
 import com.hackerrank.eshopping.product.dashboard.model.Product;
 import com.hackerrank.eshopping.product.dashboard.model.dto.ProductDto;
 import com.hackerrank.eshopping.product.dashboard.repository.ProductRepo;
@@ -25,8 +26,12 @@ public class ProductServiceImpl implements ProductService {
         return productRepo.save(product);
     }
 
-    @Override public void updateProductById(ProductDto productDto) {
-        //
+    @Override public void updateProductById(Long id, ProductDto productDto) {
+        Product product = getProductById(id);
+        product.setRetailPrice(productDto.getRetail_price());
+        product.setAvailability(productDto.getAvailability());
+        product.setDiscountedPrice(productDto.getDiscounted_price());
+        productRepo.save(product);
     }
 
     @Override public List<Product> getProductsByCategory(String category) {
@@ -39,5 +44,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override public List<Product> getAllProducts() {
         return null;
+    }
+    @Override public Product getProductById(Long id) {
+        return productRepo.findById(id).orElseThrow(()-> ProductNotFound.createWith(id));
     }
 }
