@@ -2,10 +2,7 @@ package com.hackerrank.eshopping.product.dashboard.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter @Setter
@@ -13,11 +10,12 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String category;
-    private Double retailPrice;
-    private Double discountedPrice;
+    private Double retail_price;
+    private Double discounted_price;
     private Boolean availability;
 }

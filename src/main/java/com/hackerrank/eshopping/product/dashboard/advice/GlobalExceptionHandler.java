@@ -23,11 +23,16 @@ public class GlobalExceptionHandler {
         if(exception instanceof ProductAlreadyExistsException) {
             ProductAlreadyExistsException pae = (ProductAlreadyExistsException) exception;
             return new ResponseEntity<>(pae.getMessage(), HttpStatus.BAD_REQUEST);
-        } else if(exception instanceof ProductNotFound){
+        } else if(exception instanceof ProductNotFound) {
             ProductNotFound pnf = (ProductNotFound) exception;
             return new ResponseEntity<>(pnf.getMessage(), HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
         }
+    }
+    @ExceptionHandler(RuntimeException.class)
+    public final ResponseEntity<?> handleRuntimeExceptions(Exception exception) {
+        logger.error("Handling " + exception.getClass().getSimpleName() + " due to " + exception.getMessage());
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

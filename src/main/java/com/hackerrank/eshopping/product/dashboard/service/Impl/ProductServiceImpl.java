@@ -10,6 +10,7 @@ import com.hackerrank.eshopping.product.dashboard.util.ProductComparators;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,26 +26,33 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override public void updateProductById(Long id, ProductDto productDto) {
-        Product product = getProductById(id);
-        product.setRetailPrice(productDto.getRetail_price());
+        Product product = productRepo.findProductById(id).orElseThrow(() -> new RuntimeException("Product not found!"));
+        product.setRetail_price(productDto.getRetail_price());
         product.setAvailability(productDto.getAvailability());
-        product.setDiscountedPrice(productDto.getDiscounted_price());
+        product.setDiscounted_price(productDto.getDiscounted_price());
         productRepo.save(product);
     }
 
     @Override public List<Product> getProductsByCategory(String category) {
-        List<Product> products = productRepo.getProductsByCategory(category);
+        List<Product> products = productRepo.findProductsByCategory(category);
         products.sort(ProductComparators.compByStockNAvailablityNPrice);
         return products;
     }
 
-    @Override public List<Product> getProductsByCategoryAndAvailability(String category, int availability) {
-        return null;
+    @Override public List<Product> getProductsByCategoryAndAvailability(String category, int value) {
+        boolean availability = (value == 1);
+        List<Product> products = productRepo.findProductByCategoryAndAvailability(category, availability);
+        products.sort(ProductComparators.compByDiscountPercentage);
+        return products;
     }
 
     @Override public List<Product> getAllProducts() {
-        return null;
+        List<Product> allProducts = new ArrayList<>();
+        productRepo.findAll().forEach(allProducts::add);
+        allProducts.sort((a, b) -> (int) (a.getId() - b.getId()));
+        return allProducts;
     }
+
     @Override public Product getProductById(Long id) {
         return productRepo.findById(id).orElseThrow(()-> ProductNotFound.createWith(id));
     }

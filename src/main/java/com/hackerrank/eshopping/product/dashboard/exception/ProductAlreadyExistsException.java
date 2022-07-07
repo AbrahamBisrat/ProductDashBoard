@@ -7,6 +7,6 @@ public class ProductAlreadyExistsException extends RuntimeException {
         return new ProductAlreadyExistsException(product);
     }
     @Override public String getMessage() {
-        return "User '" + product + "' Already exists";
+        return "Product : '" + product + "' Already exists";
     }
 }
