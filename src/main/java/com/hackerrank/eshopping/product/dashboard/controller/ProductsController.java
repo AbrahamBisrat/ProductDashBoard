@@ -35,12 +35,6 @@ public class ProductsController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    /* return the product by id @/{id}
-    * if product doesn't exist return 404, 200 otherwise */
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getProductByProductId(@PathVariable Long id) {
-        return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
-    }
 
     /* return products by category, array of all the products by the given category
      * /products/?category={category}
@@ -52,6 +46,17 @@ public class ProductsController {
      *
      * Comparators are needed here
      * */
+    @GetMapping(params = "category")
+    public ResponseEntity<?> getProductsByCategory(@RequestParam String category) {
+        return new ResponseEntity<>(productService.getProductsByCategory(category), HttpStatus.OK);
+    }
+
+    /* return the product by id @/{id}
+    * if product doesn't exist return 404, 200 otherwise */
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductByProductId(@PathVariable Long id) {
+        return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
+    }
 
     /* return products by category and availability. The service should be able to return
      * the JSON array of all the products by the given category and availability by the GET

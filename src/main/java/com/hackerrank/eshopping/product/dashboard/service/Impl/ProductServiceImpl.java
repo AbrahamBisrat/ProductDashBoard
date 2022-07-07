@@ -6,19 +6,17 @@ import com.hackerrank.eshopping.product.dashboard.model.Product;
 import com.hackerrank.eshopping.product.dashboard.model.dto.ProductDto;
 import com.hackerrank.eshopping.product.dashboard.repository.ProductRepo;
 import com.hackerrank.eshopping.product.dashboard.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hackerrank.eshopping.product.dashboard.util.ProductComparators;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepo productRepo;
-
-    public ProductServiceImpl(ProductRepo productRepo) {
-        this.productRepo = productRepo;
-    }
 
     @Override public Product addProduct(Product product) throws ProductAlreadyExistsException {
         if(productRepo.findProductByName(product.getName()).isPresent())
@@ -35,7 +33,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override public List<Product> getProductsByCategory(String category) {
-        return null;
+        List<Product> products = productRepo.getProductsByCategory(category);
+        products.sort(ProductComparators.compByStockNAvailablityNPrice);
+        return products;
     }
 
     @Override public List<Product> getProductsByCategoryAndAvailability(String category, int availability) {
