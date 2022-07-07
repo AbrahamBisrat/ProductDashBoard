@@ -8,13 +8,14 @@ import com.hackerrank.eshopping.product.dashboard.repository.ProductRepo;
 import com.hackerrank.eshopping.product.dashboard.service.ProductService;
 import com.hackerrank.eshopping.product.dashboard.util.ProductComparators;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepo productRepo;
