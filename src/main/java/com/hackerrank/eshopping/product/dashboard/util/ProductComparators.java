@@ -38,9 +38,6 @@ public class ProductComparators {
             double dp1 = ((p1.getRetail_price() - p1.getDiscounted_price()) / p1.getRetail_price()) * 100;
             double dp2 = ((p2.getRetail_price() - p2.getDiscounted_price()) / p2.getRetail_price()) * 100;
 
-            System.out.println(dp1);
-            System.out.println(dp2);
-
             if(dp1 != dp2) return (int) (dp2 - dp1);
             else {
                 if(p1.getDiscounted_price().equals(p2.getDiscounted_price()))
